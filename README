@@ -17,3 +17,23 @@ See Documentation/00-INDEX for a list of what is contained in each file.
 Please read the Documentation/process/changes.rst file, as it contains the
 requirements for building and running the kernel, and information about
 the problems which may result by upgrading your kernel.
+
+== Rockchip Rockpro64 ==
+
+Thanks to ayufan for his work rock prockpro64.
+Please use kernel as a stable kernel for rockpro64. 
+
+cp rockpro64.config .config
+make oldconfig
+make -j6 Image.gz modules dtbs
+make modules_install
+
+# Save version info in var VERSION
+make dtbs_install
+cp arch/arm64/boot/Image /boot/vmlinuz-$VERSION
+cp System.map /boot/System.map-$VERSION
+cp .config /boot/config-$VERSION
+mkinitramfs -o /boot/initrd.img-$VERSION $VERSION
+update_extlinux.sh
+
+Have fun!
